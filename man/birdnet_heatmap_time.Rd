@@ -58,7 +58,7 @@ results do not automatically contain non-detection data, it is incumbent on
 the user to input which dates were sampled.}
 
 \item{tz.local}{Character Olsen names timezone for local time at the monitoring
-location (e.g., 'America/Los_angeles').}
+location (e.g., 'America/Los_Angeles').}
 
 \item{comparable.color.breaks}{Logical flag for whether to create heat map
 color breaks based on all species in the input data set or based only on the
@@ -71,7 +71,7 @@ Any divisor of 60 is allowed in options c(1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 
 
 \item{plot.title}{User input plot title if desired.}
 
-\item{hours.sampled}{Either an integer vector declaring which hours were sampled
+\item{hours.sampled}{Either a numeric or integer vector declaring which hours were sampled
 across the monitoring period (e.g., c(6:8, 18:20)), or a list declaring sun-based
 monitoring based on how many hours before and after sunset were recorded, e.g.
 list(sunrise = c(1.5, 1.5), sunset = c(1, 1)) means that the schedule recorded
@@ -133,8 +133,8 @@ dat <- exampleHeatmapData
 dat[ ,recordingID := basename(filepath)]
 dat <- add_time_cols(
   dt = dat,
-  tz.recorder = 'America/Los_angeles',
-  tz.local = 'America/Los_angeles'
+  tz.recorder = 'America/Los_Angeles',
+  tz.local = 'America/Los_Angeles'
 )
 
 # Generate a heatmap at Rivendell for Pacific-slope Flycatcher
@@ -150,7 +150,7 @@ birdnet_heatmap_time(
   julian.breaks = c(30, 60, 90, 120, 150, 180, 210, 240),
   minute.timestep = 5,
   comparable.color.breaks = FALSE,
-  tz.local = 'America/Los_angeles',
+  tz.local = 'America/Los_Angeles',
   latitude = 46.1646,
   longitude = -123.77955,
   sun.lines = c('dusk', 'dawn', 'sunrise', 'sunset'),
@@ -180,7 +180,7 @@ for (i in 1:length(sp)) {
     minute.timestep = 1,
     plot.title = sp[i],
     comparable.color.breaks = TRUE,
-    tz.local = 'America/Los_angeles',
+    tz.local = 'America/Los_Angeles',
     latitude = 46.1646,
     longitude = -123.77955,
     sun.lines = c('dawn', 'sunrise'),

@@ -32,7 +32,7 @@
 #' of the year rather than 0. \href{https://www.cdfa.ca.gov/ahfss/mpes/pdfs/Julian_Calendar.pdf}{This chart}
 #' might be helpful for choosing julian breaks.
 #' @param tz.local Character Olsen names timezone for local time at the monitoring
-#' location (e.g., 'America/Los_angeles').
+#' location (e.g., 'America/Los_Angeles').
 #' @param comparable.color.breaks Logical flag for whether to create heat map
 #' color breaks based on all species in the input data set or based only on the
 #' species of interest in this plot. TRUE means it will be easier to make
@@ -73,8 +73,8 @@
 #' dat[ ,recordingID := basename(filepath)]
 #' dat <- add_time_cols(
 #'  dt = dat,
-#'  tz.recorder = 'America/Los_angeles',
-#'  tz.local = 'America/Los_angeles'
+#'  tz.recorder = 'America/Los_Angeles',
+#'  tz.local = 'America/Los_Angeles'
 #' )
 #'
 #' # Generate a heatmap at Rivendell for Pacific Wren

@@ -23,7 +23,6 @@ Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
 Depends: R (>= 3.5.0)
 Imports: 
     caret, 
@@ -64,3 +63,4 @@ Collate:
     'helpers.R'
     'nvspl_to_ai.R'
     'wave_to_nvspl.R'
+Config/roxygen2/version: 8.1.0

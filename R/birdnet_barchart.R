@@ -60,8 +60,8 @@
 #' dat[ ,recordingID := basename(filepath)]
 #' dat <- add_time_cols(
 #'  dt = dat,
-#'  tz.recorder = 'America/Los_angeles',
-#'  tz.local = 'America/Los_angeles'
+#'  tz.recorder = 'America/Los_Angeles',
+#'  tz.local = 'America/Los_Angeles'
 #' )
 #'
 #' # Produce an interactive plotly barchart with interactive = TRUE

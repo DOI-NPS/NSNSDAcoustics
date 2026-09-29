@@ -50,7 +50,7 @@ results do not automatically contain non-detection data, it is incumbent on
 the user to input which dates were sampled.}
 
 \item{tz.local}{Character Olsen names timezone for local time at the monitoring
-location (e.g., 'America/Los_angeles').}
+location (e.g., 'America/Los_Angeles').}
 
 \item{comparable.color.breaks}{Logical flag for whether to create heat map
 color breaks based on all species in the input data set or based only on the
@@ -97,8 +97,8 @@ dat <- exampleHeatmapData
 dat[ ,recordingID := basename(filepath)]
 dat <- add_time_cols(
  dt = dat,
- tz.recorder = 'America/Los_angeles',
- tz.local = 'America/Los_angeles'
+ tz.recorder = 'America/Los_Angeles',
+ tz.local = 'America/Los_Angeles'
 )
 
 # Generate a heatmap at Rivendell for Pacific Wren

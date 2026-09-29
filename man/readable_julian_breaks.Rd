@@ -74,8 +74,8 @@ dat <- exampleHeatmapData
 dat[ ,recordingID := basename(filepath)]
 dat <- add_time_cols(
  dt = dat,
- tz.recorder = 'America/Los_angeles',
- tz.local = 'America/Los_angeles'
+ tz.recorder = 'America/Los_Angeles',
+ tz.local = 'America/Los_Angeles'
 )
 
 # Create human-readable julian breaks

@@ -25,50 +25,66 @@ import(tuneR)
 import(viridis)
 importFrom(caret,confusionMatrix)
 importFrom(ggplot2,ggplot)
-importFrom(grDevices,colorRampPalette)
-importFrom(grDevices,dev.new)
-importFrom(grDevices,graphics.off)
-importFrom(graphics,axis)
-importFrom(graphics,axis.POSIXct)
-importFrom(graphics,box)
-importFrom(graphics,hist)
-importFrom(graphics,legend)
-importFrom(graphics,lines)
-importFrom(graphics,mtext)
-importFrom(graphics,par)
-importFrom(graphics,polygon)
-importFrom(lubridate,day)
-importFrom(lubridate,floor_date)
-importFrom(lubridate,hour)
-importFrom(lubridate,isoweek)
-importFrom(lubridate,leap_year)
-importFrom(lubridate,mday)
-importFrom(lubridate,minute)
-importFrom(lubridate,month)
-importFrom(lubridate,quarter)
-importFrom(lubridate,round_date)
-importFrom(lubridate,second)
-importFrom(lubridate,tz)
-importFrom(lubridate,wday)
-importFrom(lubridate,week)
-importFrom(lubridate,with_tz)
-importFrom(lubridate,yday)
-importFrom(lubridate,year)
+importFrom(grDevices,
+  colorRampPalette,
+  dev.new,
+  graphics.off
+)
+importFrom(graphics,
+  axis,
+  axis.POSIXct,
+  box,
+  hist,
+  legend,
+  lines,
+  mtext,
+  par,
+  polygon
+)
+importFrom(lubridate,
+  day,
+  floor_date,
+  hour,
+  isoweek,
+  leap_year,
+  mday,
+  minute,
+  month,
+  quarter,
+  round_date,
+  second,
+  tz,
+  wday,
+  week,
+  with_tz,
+  yday,
+  year
+)
 importFrom(monitoR,readMP3)
-importFrom(plotly,ggplotly)
-importFrom(plotly,style)
-importFrom(stats,end)
-importFrom(stats,glm)
-importFrom(stats,mvfft)
-importFrom(stats,start)
-importFrom(stringr,str_extract)
-importFrom(stringr,str_match)
+importFrom(plotly,
+  ggplotly,
+  style
+)
+importFrom(stats,
+  end,
+  glm,
+  mvfft,
+  start
+)
+importFrom(stringr,
+  str_extract,
+  str_match
+)
 importFrom(suncalc,getSunlightTimes)
 importFrom(tools,file_ext)
-importFrom(utils,capture.output)
-importFrom(utils,head)
-importFrom(utils,read.csv)
-importFrom(utils,tail)
-importFrom(utils,write.table)
-importFrom(viridis,magma)
-importFrom(viridis,viridis)
+importFrom(utils,
+  capture.output,
+  head,
+  read.csv,
+  tail,
+  write.table
+)
+importFrom(viridis,
+  magma,
+  viridis
+)
