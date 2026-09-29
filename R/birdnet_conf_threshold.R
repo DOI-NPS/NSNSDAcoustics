@@ -134,6 +134,11 @@ birdnet_conf_threshold <- function(
 ) {
 
   data <- data.table(data)
+
+  # If birdnet has asymptotically rounded any values to 1, set these to 0.99999
+  # so that function can proceed, otherwise will throw NA during logit
+  data[confidence == 1, confidence := 0.99999]
+
   sp <- sort(unique(data$common_name))
   ht <- 5.5
   wt <- 6.5
@@ -171,6 +176,12 @@ birdnet_conf_threshold <- function(
     } else {
       message('Using `min.conf` = ', min.conf, ' based on your data input. If this behavior is undesired, please exit the function and input desired value to `min.conf`.\n')
     }
+  }
+
+  # If input data contain a mixture of min_conf values, stop function and
+  # force user to check their data or input an appropriate value
+  if (length(min.conf) > 1) {
+    stop('\n `min.conf` should be a single value. You either input multiple values to the `min.conf` argument, or you did not enter a value for `min.conf` and when the function tried to select one automatically, it found multiple values for the "min_conf" column in your data. Check your data and choose an appropriate `min.conf` value.\n')
   }
 
   for (i in 1:length(sp)) {
