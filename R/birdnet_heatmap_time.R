@@ -34,7 +34,7 @@
 #' of the year rather than 0. \href{https://www.cdfa.ca.gov/ahfss/mpes/pdfs/Julian_Calendar.pdf}{This chart}
 #' might be helpful for choosing julian breaks.
 #' @param tz.local Character Olsen names timezone for local time at the monitoring
-#'  location (e.g., 'America/Los_angeles').
+#'  location (e.g., 'America/Los_Angeles').
 #' @param comparable.color.breaks Logical flag for whether to create heat map
 #' color breaks based on all species in the input data set or based only on the
 #' species of interest in this plot. TRUE means it will be easier to make straightforward
@@ -42,7 +42,7 @@
 #'  species will be easier to see.
 #' @param minute.timestep Integer input of how to summarize the data by minute.
 #' Any divisor of 60 is allowed in options c(1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60).
-#' @param hours.sampled Either an integer vector declaring which hours were sampled
+#' @param hours.sampled Either a numeric or integer vector declaring which hours were sampled
 #'  across the monitoring period (e.g., c(6:8, 18:20)), or a list declaring sun-based
 #'  monitoring based on how many hours before and after sunset were recorded, e.g.
 #'  list(sunrise = c(1.5, 1.5), sunset = c(1, 1)) means that the schedule recorded
@@ -98,8 +98,8 @@
 #' dat[ ,recordingID := basename(filepath)]
 #' dat <- add_time_cols(
 #'   dt = dat,
-#'   tz.recorder = 'America/Los_angeles',
-#'   tz.local = 'America/Los_angeles'
+#'   tz.recorder = 'America/Los_Angeles',
+#'   tz.local = 'America/Los_Angeles'
 #' )
 #'
 #' # Generate a heatmap at Rivendell for Pacific-slope Flycatcher
@@ -115,7 +115,7 @@
 #'   julian.breaks = c(30, 60, 90, 120, 150, 180, 210, 240),
 #'   minute.timestep = 5,
 #'   comparable.color.breaks = FALSE,
-#'   tz.local = 'America/Los_angeles',
+#'   tz.local = 'America/Los_Angeles',
 #'   latitude = 46.1646,
 #'   longitude = -123.77955,
 #'   sun.lines = c('dusk', 'dawn', 'sunrise', 'sunset'),
@@ -145,7 +145,7 @@
 #'     minute.timestep = 1,
 #'     plot.title = sp[i],
 #'     comparable.color.breaks = TRUE,
-#'     tz.local = 'America/Los_angeles',
+#'     tz.local = 'America/Los_Angeles',
 #'     latitude = 46.1646,
 #'     longitude = -123.77955,
 #'     sun.lines = c('dawn', 'sunrise'),
@@ -360,7 +360,11 @@ birdnet_heatmap_time <- function(
   sampled.times <- data.table(tbin = tseq)
   sampled.times[,date := as.Date(tbin, tz = tz.local)]
 
-  if(inherits(hours.sampled, 'integer')) {
+  if(! (inherits(hours.sampled, 'integer') | inherits(hours.sampled, 'numeric') | inherits(hours.sampled, 'list'))) {
+    stop('`hours.sampled` should be either a numeric or integer vector declaring which hours were sampled across the monitoring period (e.g., c(3,5,7), c(6:8, 18:20)), or a list declaring sun-based monitoring based on how many hours before and after sunset were recorded.\n')
+  }
+
+  if(inherits(hours.sampled, 'integer') | inherits(hours.sampled, 'numeric')) {
     # Subset according to hours falling within user-specified sampling range
     sampled.times[,hour := lubridate::hour(tbin)]
     sampled.times <- sampled.times[hour %in% hours.sampled]
@@ -389,7 +393,6 @@ birdnet_heatmap_time <- function(
     sampled.times <-
       sampled.times[(tbin >= riselowerlimit & tbin <= riseupperlimit) |
                       (tbin >= setlowerlimit & tbin <= setupperlimit) ]
-
   }
 
   # Next, we subset the sampled times according to date as well
