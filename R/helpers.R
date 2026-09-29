@@ -56,8 +56,8 @@
 #' dat[ , recordingID := basename(filepath)]
 #' dat <- add_time_cols(
 #'  dt = dat,
-#'  tz.recorder = 'America/Los_angeles',
-#'  tz.local = 'America/Los_angeles'
+#'  tz.recorder = 'America/Los_Angeles',
+#'  tz.local = 'America/Los_Angeles'
 #' )
 #'
 
@@ -151,7 +151,7 @@ add_time_cols <- function(
 #' }
 #'
 #' @import data.table
-#' @importFrom lubridate wday second isoweek yday hour year month week minute mday quarter day round_date with_tz floor_date
+#' @importFrom lubridate wday second isoweek yday hour year month week minute mday quarter day round_date with_tz floor_date leap_year
 #' @importFrom stringr str_extract
 #' @export
 #' @examples
@@ -164,8 +164,8 @@ add_time_cols <- function(
 #' dat[ ,recordingID := basename(filepath)]
 #' dat <- add_time_cols(
 #'  dt = dat,
-#'  tz.recorder = 'America/Los_angeles',
-#'  tz.local = 'America/Los_angeles'
+#'  tz.recorder = 'America/Los_Angeles',
+#'  tz.local = 'America/Los_Angeles'
 #' )
 #'
 #' # Create human-readable julian breaks
@@ -233,15 +233,20 @@ readable_julian_breaks <- function(
                       c('julian.date', 'date.lab')])
   setkey(brks, julian.date)
 
-  # To accommodate leap years and avoid overlapping labels,
-  # Only keep the SECOND occurrence of each julian date
-  # (first occurrence would be the leap year label, which is likely less common)
-  N <- brks[,.N, julian.date]
-  brks <- merge(x = brks, y = N, by = 'julian.date', all.x = TRUE)
-  brks[match(unique(brks$julian.date), brks$julian.date), match := TRUE]
-  brks <- brks[match == TRUE]
-  brks[,c('N', 'match') := NULL]
-
+  # Figure out if the input data contains ONLY leap years.
+  # (edge case but could happen, esp if only looking at one year of data)
+  # If so, we skip the following if statement and return brks as is.
+  # otherwise we only keep non-leap year labels
+  if(!all(leap_year(data[,get(posix.column)]), na.rm = TRUE)) {
+    # Identify which are leap years to avoid using in labels
+    brks[, is.leap := {
+      # Use a known leap year (2024) for date.lab to extract day of year
+      leap.yday <- yday(mdy(paste(date.lab, '2024')))
+      julian.date == leap.yday
+    }]
+    brks <- brks[is.leap == FALSE]
+    brks[,is.leap := NULL]
+  }
   return(brks)
 }
 
@@ -282,7 +287,7 @@ birdnet_audio_embed <- function(
   }
 
   if (!('locationID' %in% colnames(results))) {
-    results[,locationID := sapply(strsplit(recordingID, split = '_', '[[', 1))]
+    results[,locationID := sapply(strsplit(recordingID, split = '_'), '[[', 1)]
   }
 
   # Sample one result
