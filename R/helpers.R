@@ -206,8 +206,10 @@ readable_julian_breaks <- function(
     julian.breaks # optional if want to customize
 )
 {
+
   data <- data.table(data)
   data[,julian.date := lubridate::yday(get(posix.column))]
+  data[,is.leap := leap_year(get(posix.column))]
   format.opts <- c('%d', '%m', '%b', '%B', '%y', '%Y')
 
   if (any(!(format %in% format.opts))) {
@@ -229,25 +231,24 @@ readable_julian_breaks <- function(
                          by = timestep)
   }
 
-  brks <- unique(data[julian.date %in% julian.breaks,
-                      c('julian.date', 'date.lab')])
-  setkey(brks, julian.date)
+  brks.raw <- data[julian.date %in% julian.breaks, .(julian.date, is.leap, date.lab)]
 
-  # Figure out if the input data contains ONLY leap years.
-  # (edge case but could happen, esp if only looking at one year of data)
-  # If so, we skip the following if statement and return brks as is.
-  # otherwise we only keep non-leap year labels
-  if(!all(leap_year(data[,get(posix.column)]), na.rm = TRUE)) {
-    # Identify which are leap years to avoid using in labels
-    brks[, is.leap := {
-      # Use a known leap year (2024) for date.lab to extract day of year
-      leap.yday <- yday(mdy(paste(date.lab, '2024')))
-      julian.date == leap.yday
-    }]
-    brks <- brks[is.leap == FALSE]
-    brks[,is.leap := NULL]
+  if (any(!data$is.leap, na.rm = TRUE)) {
+
+    # Sort so that non-leap year rows (is.leap == FALSE) come FIRST
+    # to capture the non-leap year date.lab mapping whenever a julian day is shared.
+    setorder(brks.raw, julian.date, is.leap)
+    brks <- unique(brks.raw, by = 'julian.date')
+
+  } else {
+    # If the input data ONLY contains leap years, keep as is
+    brks <- unique(brks.raw, by = 'julian.date')
   }
+
+  brks[, is.leap := NULL]
+  setkey(brks, julian.date)
   return(brks)
+
 }
 
 
